@@ -1,10 +1,19 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
-function NavLink({ text, to }) {
+export function NavigationLink({ end = false, text, to, addStyle = '' }) {
+  const activeLink = {
+    color: 'rgba(0, 0, 0)',
+    textDecorationLine: 'underline'
+  };
+
   return (
-    <Link className="text-xl font-semibold tracking-wide text-gray-800" to={to}>
+    <NavLink
+      className={`text-xl font-semibold tracking-wide text-gray-800 hover:text-black hover:underline underline-offset-8 ${addStyle}`}
+      style={({ isActive }) => (isActive ? activeLink : null)}
+      end={end}
+      to={to}>
       {text}
-    </Link>
+    </NavLink>
   );
 }
 
@@ -16,8 +25,9 @@ export default function NavBar() {
       </Link>
       <nav>
         <ul className="flex gap-4">
-          <NavLink text="About" to="/about" />
-          <NavLink text="Vans" to="/vans" />
+          <NavigationLink text="Host" to="host" />
+          <NavigationLink text="About" to="about" />
+          <NavigationLink text="Vans" to="vans" />
         </ul>
       </nav>
     </header>

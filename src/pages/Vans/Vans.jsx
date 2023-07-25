@@ -1,6 +1,29 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import data from '../data.json';
+import data from '../../data.json';
+
+export function VansTypeButton({ type }) {
+  let style;
+  switch (type) {
+    case 'simple':
+      style = 'bg-green-800';
+      break;
+    case 'rugged':
+      style = 'bg-orange-300';
+      break;
+    case 'luxury':
+      style = 'bg-black';
+      break;
+    default:
+      style = undefined;
+      return style;
+  }
+  return (
+    <span className={`rounded text-white w-24 font-semibold py-1 text-center ${style}`}>
+      {type.charAt(0).toUpperCase() + type.slice(1)}
+    </span>
+  );
+}
 
 export default function VansList() {
   const [vansList, setVansList] = useState([]);
@@ -10,22 +33,6 @@ export default function VansList() {
   }, []);
 
   const vanElements = vansList.map(({ id, imageUrl, name, price, type }) => {
-    let style;
-    switch (type) {
-      case 'simple':
-        style = 'bg-green-800';
-        break;
-      case 'rugged':
-        style = 'bg-orange-300';
-        break;
-      case 'luxury':
-        style = 'bg-black';
-        break;
-      default:
-        style = undefined;
-        return style;
-    }
-
     return (
       <Link
         key={id}
@@ -35,9 +42,7 @@ export default function VansList() {
         <div className="flex items-stretch w-full justify-between">
           <div className="flex flex-col gap-3">
             <h4 className="font-bold text-xl">{name}</h4>
-            <span className={`rounded text-white w-24 font-semibold py-1 text-center ${style}`}>
-              {type.charAt(0).toUpperCase() + type.slice(1)}
-            </span>
+            <VansTypeButton type={type} />
           </div>
           <p className="flex flex-col">
             <strong className="text-lg">${price}</strong>
